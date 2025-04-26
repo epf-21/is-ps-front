@@ -107,31 +107,25 @@ export default function ReservationDialog({
     nuevoEstado: string
   ): Promise<boolean> => {
     try {
-      const response = await fetch(
-        `http://localhost:4000/api/reservations/${id}/state`,
+      const response = await axiosInstance.patch(`/api/reservations/${id}/state`,
         {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ estado: nuevoEstado }),
+          estado: nuevoEstado,
         }
       );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        console.error(" Error al actualizar estado:", data.message || data);
-        alert("Error al actualizar el estado de la reserva");
-        return false;
-      }
+      const data = response.data;
 
       console.log(" Estado actualizado:", data);
       alert(`Estado actualizado a: ${data.estado}`);
       return true;
     } catch (error) {
-      console.error(" Error de red al actualizar estado:", error);
-      alert("Error de red al actualizar el estado");
+      if (axios.isAxiosError(error)) {
+        const backendError = error.response?.data?.error || "Error al actualizar el estado";
+        alert(backendError);
+      } else {
+        console.error(" Error de red al actualizar estado:", error);
+        alert("Error de red al actualizar el estado");
+      }
       return false;
     }
   };

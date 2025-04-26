@@ -61,7 +61,7 @@ export default function ReservationDialog({
   returnDate,
 }: ReservationDialogProps) {
   const [reservaId, setReservaId] = useState<number | null>(null);
-  //fetch para reservar
+
   const crearReserva = async (
     userId: number,
     carId: number,

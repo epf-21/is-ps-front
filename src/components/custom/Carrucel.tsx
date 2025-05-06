@@ -8,16 +8,24 @@ import {
 } from "@/components/ui/carousel"
 import Autoplay from 'embla-carousel-autoplay'
 import CarrucelItem from './CarrucelItem'
-import { useMostRentedCars } from '@/api/queries/useMostRentedCars'
+import { useMostRentedCars } from '@/hooks/useMostRentedCars'
 
 function Carrucel() {
   const { data: content = [], isLoading, isError } = useMostRentedCars();
 
   if (isLoading) {
-    return <p className="text-center text-xl font-semibold text-muted-foreground"> cargando autos...</p>
+    return (
+      <p className="text-center text-xl font-semibold text-muted-foreground">
+        cargando autos...
+      </p>
+    )
   }
   if (isError) {
-    return <p className="text-center text-xl text-blue-950">Error al cargar los autos</p>
+    return (
+      <p className="text-center text-xl text-blue-950">
+        Error al cargar los autos
+      </p>
+    )
   }
   if (content.length === 0) {
     return (

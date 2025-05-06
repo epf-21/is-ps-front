@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { API_URL } from '@/utils/bakend';
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL
-  ,
+  baseURL: API_URL,
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },

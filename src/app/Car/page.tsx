@@ -59,14 +59,23 @@ export default function Page() {
   return (
     <div className="max-w-xl mx-auto mt-10 p-4 bg-white rounded shadow">
       <h1 className="text-2xl font-bold mb-4">Añadir un coche</h1>
+      <p>Los coches estan disponibles desde el 2025-07-14 hasta el 2025-07-28 ese es el filtro si se pone en otro rango de fechas no se mostrar en el mapa el carro añadido</p>
       <form onSubmit={handleSubmit} className="space-y-4">
+        <label>Marca</label>
         <input name="marca" placeholder="Marca" value={form.marca} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Modelo</label>
         <input name="modelo" placeholder="Modelo" value={form.modelo} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Año del carro</label>
         <input name="anio" type="number" placeholder="Año" value={form.anio} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Precio del carro</label>
         <input name="precio" type="number" placeholder="Precio por día" value={form.precio} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Fecha de disponibilidad del carro</label>
         <input name="disponible_desde" type="date" value={form.disponible_desde} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Hasta cuando estara disponible</label>
         <input name="disponible_hasta" type="date" value={form.disponible_hasta} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Latidud</label>
         <input name="latitud" type="number" step="any" placeholder="Latitud" value={form.latitud} onChange={handleChange} className="w-full p-2 border rounded" required />
+        <label>Longitud</label>
         <input name="longitud" type="number" step="any" placeholder="Longitud" value={form.longitud} onChange={handleChange} className="w-full p-2 border rounded" required />
 
         <button

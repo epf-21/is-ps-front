@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAirports } from '@/api/queries/useAirports'
 import { Button } from "@/components/ui/button"
 import CarsByLocation from '@/components/custom/CarsByLocation';
+import Header from "@/components/ui/Header";
 
 export default function Page() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -19,9 +20,9 @@ export default function Page() {
     setSelectedLongitude(longitude);
   }
   const cities = new Map([
-    [1, "Beni"],
-    [2, "Chuquisaca"],
-    [3, "Cochabamba"],
+    [1, "Cochabamba"],
+    [2, "Beni"],
+    [3, "Chuquisaca"],
     [4, "La Paz"],
     [5, "Oruro"],
     [6, "Pando"],
@@ -30,9 +31,11 @@ export default function Page() {
     [9, "Tarija"]
   ]);
   return (
+    <div>
+    <Header />
     <div className="max-w-xl mx-auto pt-4">
       <h1 className="text-center text-2xl mb-4 font-semibold">Filtar Por Aeropuerto</h1>
-      <p className="mb-4 font-semibold">Seleccione un Aeropuerto</p>
+      <p className="mb-4 font-semibold">Seleccione un Aeropuerto y haga click en Buscar</p>
       <div className="flex gap-1 mb-4">
         <select id="aeropuertos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
           value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)}
@@ -52,6 +55,7 @@ export default function Page() {
       <p className="mb-4 font-semibold">Resultados</p>
       <CarsByLocation latitude={selectedLatitude} longitude={selectedLongitude}></CarsByLocation>
 
+    </div>
     </div>
   );
 }

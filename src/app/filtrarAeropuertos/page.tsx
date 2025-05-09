@@ -6,9 +6,8 @@ import { Button } from "@/components/ui/button"
 import CarsByLocation from '@/components/custom/CarsByLocation';
 import Header from "@/components/ui/Header";
 
-export default function Page() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data: content = [], isLoading, isError } = useAirports();
+export default function Page() {  
+  const { data: content = []} = useAirports();
   const [selectedValue, setSelectedValue] = useState('0');
   const [selectedLatitude, setSelectedLatitude] = useState(0);
   const [selectedLongitude, setSelectedLongitude] = useState(0);
@@ -18,18 +17,7 @@ export default function Page() {
     setSelectedLatitude(latitude);
     const longitude = content[index].longitud
     setSelectedLongitude(longitude);
-  }
-  const cities = new Map([
-    [1, "Cochabamba"],
-    [2, "Beni"],
-    [3, "Chuquisaca"],
-    [4, "La Paz"],
-    [5, "Oruro"],
-    [6, "Pando"],
-    [7, "Potosí"],
-    [8, "Santa Cruz"],
-    [9, "Tarija"]
-  ]);
+  }  
   return (
     <div>
     <Header />
@@ -40,11 +28,10 @@ export default function Page() {
         <select id="aeropuertos" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
           value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)}
         >
-          {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            content.map((item: any, i: number) => (
+          {            
+            content.map((item, i: number) => (
               <option key={i} value={i} data-latitude={item.latitud} data-longitude={item.longitud}>
-                {item.nombre} ({cities.get(item.id_ciudad)})
+                {item.nombre} ({item.ciudad.nombre})
               </option>
             ))}
         </select>

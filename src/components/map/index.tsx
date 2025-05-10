@@ -53,7 +53,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
             html: `<div class="price-marker">BOB ${auto.precio}</div>`,
             className: "",
             iconSize: [80, 30],
-            iconAnchor: [25, 10],
+            iconAnchor: [40, 8],
           });
 
           return (

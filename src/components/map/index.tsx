@@ -12,6 +12,8 @@ import "@/styles/priceMarker.css"
 import MapPunto from "../mapPunto";
 import { AutoMap } from "@/interface/map";
 import { estaDentroDelRadio } from "./filtroGPS";
+import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 
 
 interface MapProps {
@@ -51,25 +53,32 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
           const customIcon: DivIcon = L.divIcon({
             html: `<div class="price-marker">BOB ${auto.precio}</div>`,
             className: "",
-            iconAnchor: [40, 8],
+            iconAnchor: [38, 8],
           });
 
           return (
             <Marker key={auto.id} position={[auto.latitud, auto.longitud]} icon={customIcon}>
               <Popup>
-                <div className="text-sm space-y-1">
-                  <div><strong>Marca:</strong> {auto.marca}</div>
-                  <div><strong>Modelo:</strong> {auto.modelo}</div>
-                  <div><strong>Año:</strong> {auto.anio}</div>
-                  <div><strong>Precio:</strong>BOB {auto.precio} / día</div>
-                  <button
-                    className="mt-2 px-2 py-1 bg-black text-white rounded hover:bg-gray-800 cursor-pointer"
-                    onClick={() => router.push(`/infoAuto_Recode/${auto.id}`)}
-                  >
-                    Ver oferta
-                  </button>
-                </div>
+                <Card className="w-[250px] p-0 shadow-lg rounded-xl overflow-hidden">
+                  <div className="p-3 space-y-1">
+                    <div className="font-semibold text-base">
+                      {auto.marca} {auto.modelo} {auto.anio}
+                    </div>
+                    <div className="flex justify-between items-center mt-2">
+                      <div className="text-right">
+                        <div className="font-bold text-base">BOB {auto.precio} / día</div>
+                      </div>
+                    </div>
+                    <Button
+                      className="mt-2 w-full"
+                      onClick={() => router.push(`/infoAuto_Recode/${auto.id}`)}
+                    >
+                      Ver oferta
+                    </Button>
+                  </div>
+                </Card>
               </Popup>
+
             </Marker>
           );
         }

@@ -1,15 +1,16 @@
 "use client"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import L, { DivIcon, LatLngExpression, LatLngTuple } from "leaflet"
-
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
+import "@/styles/priceMarker.css"
+
 import MapPunto from "../mapPunto";
 import { AutoMap } from "@/interface/map";
-import "@/styles/priceMarker.css"
-import { useState } from "react";
 import { estaDentroDelRadio } from "./filtroGPS";
 
 
@@ -30,6 +31,9 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
       altitud
     })
   }
+
+  const router = useRouter();
+
   return (
     <MapContainer
       center={posix}
@@ -60,8 +64,11 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
                   <div><strong>Modelo:</strong> {auto.modelo}</div>
                   <div><strong>Año:</strong> {auto.anio}</div>
                   <div><strong>Precio:</strong>BOB {auto.precio} / día</div>
-                  <button className="mt-2 px-2 py-1 bg-black text-white rounded hover:bg-gray-800">
-                    Ver detalles
+                  <button
+                    className="mt-2 px-2 py-1 bg-black text-white rounded hover:bg-gray-800 cursor-pointer"
+                    onClick={() => router.push(`/infoAuto_Recode/${auto.id}`)}
+                  >
+                    Ver oferta
                   </button>
                 </div>
               </Popup>

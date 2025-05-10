@@ -42,7 +42,6 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {autos.map((auto) => {
@@ -52,7 +51,6 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
           const customIcon: DivIcon = L.divIcon({
             html: `<div class="price-marker">BOB ${auto.precio}</div>`,
             className: "",
-            iconSize: [80, 30],
             iconAnchor: [40, 8],
           });
 

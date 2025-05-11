@@ -69,7 +69,8 @@ export default function ReservationDialog({
     estado: string = "pendiente"
   ): Promise<boolean> => {
     if (!pickupDate || !returnDate) {
-      alert("Las fechas no pueden estar vacías");
+      setModalMessage("Las fechas no pueden estar vacías");
+      setModalVisible(true);
       return false;
     }
 
@@ -114,7 +115,9 @@ export default function ReservationDialog({
 
       const data = response.data;
       console.log("Estado actualizado:", data);
-      alert(`Estado actualizado a: ${data.estado}`);
+      //alert(`Estado actualizado a: ${data.estado}`);
+      setModalMessage(`La reserva fue: ${data.estado}`);
+      setModalVisible(true);
       return true;
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -123,7 +126,9 @@ export default function ReservationDialog({
         alert(backendError);
       } else {
         console.error("Error de red al actualizar estado:", error);
-        alert("Error de red al actualizar el estado");
+       // alert("Error de red al actualizar el estado");
+       setModalMessage("Error de red al actualizar el estado");
+      setModalVisible(true);
       }
       return false;
     }

@@ -44,7 +44,7 @@ export default function Header() {
                 </Link>
                 <Link href="/homeBuscador_Recode" className="text-sm font-medium">
                   Buscar
-                </Link>
+                </Link>                
                 <Link href="/acerca" className="text-sm font-medium">
                   Acerca de
                 </Link>
@@ -101,7 +101,7 @@ export default function Header() {
           </Link>
           <Link href="/homeBuscador_Recode" className="text-sm font-medium">
             Buscar
-          </Link>
+          </Link>          
           <Link href="/acerca" className="text-sm font-medium">
             Acerca de
           </Link>

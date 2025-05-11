@@ -1,14 +1,15 @@
 import axios from "axios";
+import { API_URL } from "@/utils/bakend";
 
 const apiAllCards = axios.create({
-    baseURL: "https://search-car-backend.vercel.app/searchCar",
+    baseURL: API_URL,
     headers: {
         "Content-Type": "application/json",
     },
 });
 
 const apiCarById = axios.create({
-    baseURL: "https://search-car-backend.vercel.app",
+    baseURL: API_URL,
     headers: {
         "Content-Type": "application/json",
     },

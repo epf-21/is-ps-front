@@ -16,6 +16,7 @@ interface ReservationConfirmedMessageProps {
   id: string;
   marca:string;
   modelo:string;
+  precio:number;
 }
 
 export default function ReservationConfirmedMessage({
@@ -25,6 +26,7 @@ export default function ReservationConfirmedMessage({
   id,
   marca,
   modelo,
+  precio,
 }: ReservationConfirmedMessageProps) {
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -36,7 +38,7 @@ export default function ReservationConfirmedMessage({
     startTimer,
     cancelReservation,
     setAutoCancelled,
-  } = useReservationTimer(48 * 60 * 60 * 1000);
+  } = useReservationTimer(12 * 60 * 60 * 1000);
 
   const vehicle = {
     id: 1,
@@ -61,7 +63,7 @@ export default function ReservationConfirmedMessage({
       ? `${hours}h ${minutes}m ${seconds}s`
       : `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
   };
-
+  console.log("estamos en Reservation");
   return (
     <>
       <ReservationDialog
@@ -73,7 +75,7 @@ export default function ReservationConfirmedMessage({
         confirmed={confirmed}
         handleCancelReservation={cancelReservation}
         //user={user}
-        vehicle={vehicle}
+       
         timeLeft={timeLeft}
         formatTime={formatTime}
         pickupDate={pickupDate}
@@ -81,7 +83,7 @@ export default function ReservationConfirmedMessage({
         id={id}
         marca={marca}
         modelo={modelo}
-
+        precio = {precio}
       />
 
       {autoCancelled && (

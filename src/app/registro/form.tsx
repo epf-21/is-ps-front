@@ -98,7 +98,7 @@ export default function Form() {
   useEffect(() => {
     const fetchCiudades = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/ciudades`);
+        const response = await axios.get(`${API_URL}/login/api/ciudades`);////
         setCiudades(response.data);
       } catch (error) {
         console.error("Error fetching cities:", error);
@@ -205,7 +205,7 @@ export default function Form() {
           : userType === "DRIVER"
           ? "Conductor"
           : "";
-      const response = await axios.post(`${API_URL}/api/registro`, usuario);
+      const response = await axios.post(`${API_URL}/login/api/registro`, usuario);
       console.log(response.data);
       toast.success(`Gracias por registrarse como ${user}.`);
       resetar();

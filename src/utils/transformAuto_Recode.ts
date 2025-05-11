@@ -8,13 +8,13 @@ export const transformAuto = (item: RawAuto): AutoCard => ({
     asientos: item.asientos,
     puertas: item.puertas,
     transmision: item.transmision,
-    combustibles: Array.isArray(item.combustiblecarro)
-        ? item.combustiblecarro
-            .map((c) => c?.tipocombustible?.tipo_de_combustible)
+    combustibles: Array.isArray(item.combustiblesporCarro)
+        ? item.combustiblesporCarro
+            .map((c) => c?.combustible?.tipoDeCombustible)
             .filter((c): c is string => typeof c === "string")
         : [],
     estadoAlquiler: item.estado,
-    nombreHost: item.usuario_rol?.usuario?.nombre || "Sin nombre",
+    nombreHost: item.usuario?.nombre || "Sin nombre",
     calificacionAuto: 4.5,
     ciudad: item.direccion?.provincia?.ciudad?.nombre || "Desconocido",
     calle: item.direccion?.calle || "No especificada",
@@ -23,5 +23,5 @@ export const transformAuto = (item: RawAuto): AutoCard => ({
     precioPorDia: Number(item.precio_por_dia),
     disponible_desde: item.disponible_desde || "Sin fecha de inicio",
     disponible_hasta: item.disponible_hasta || "Sin fecha de fin",
-    imagenURL: item.imagen?.[0]?.data || "",
+    imagenURL: item.imagenes?.[0]?.data || "",
 });

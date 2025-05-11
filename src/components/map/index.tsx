@@ -20,6 +20,9 @@ interface MapProps {
   posix: LatLngExpression | LatLngTuple,
   zoom?: number,
   autos?: AutoMap[],
+  radio: number,
+  punto: { lon: number, alt: number },
+  setpunto: (punto: { lon: number, alt: number }) => void;
 }
 
 interface GroupedAuto {
@@ -31,16 +34,8 @@ const defaults = {
   zoom: 12,
 }
 
-const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
-  const [punto, setpunto] = useState({ altitud: 0, longitud: 0 });
+const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
-
-  const actualizarPunto = (longitud: number, altitud: number) => {
-    setpunto({
-      longitud,
-      altitud
-    });
-  }
 
   const router = useRouter();
 
@@ -90,10 +85,10 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {groupedAutos.map((group) => {
-        const sinFiltro = punto.altitud === 0 && punto.longitud === 0;
+        const sinFiltro = punto.alt === 0 && punto.lon === 0;
         const latitud = group.autos[0].latitud;
         const longitud = group.autos[0].longitud;
-        const dentroDelRadio = estaDentroDelRadio(punto.altitud, punto.longitud, latitud, longitud, 3000);
+        const dentroDelRadio = estaDentroDelRadio(punto.alt, punto.lon, latitud, longitud, radio*1000);
 
         if (sinFiltro || dentroDelRadio) {
           const lowestPrice = Math.min(...group.autos.map(auto => auto.precio));
@@ -166,7 +161,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
         }
         return null;
       })}
-      <MapPunto actualizarPunto={actualizarPunto} />
+      <MapPunto radio={radio} punto={punto} setpunto={setpunto} />
     </MapContainer>
   );
 }

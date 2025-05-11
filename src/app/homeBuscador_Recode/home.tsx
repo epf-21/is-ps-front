@@ -11,6 +11,7 @@ import { useCarsMap } from "@/hooks/useAutosMapa";
 
 import DateRangeFilter from '@/components/filtrofechas_7-bits/DateRangeFilter'
 import dynamic from "next/dynamic";
+import { set } from "date-fns";
 
 export default function Home() {
   const {
@@ -45,6 +46,12 @@ export default function Home() {
   ), []);
 
   const { data: carsMap, isLoading: loadingMap } = useCarsMap(startDate, endDate);
+  const [radio, setradio] = useState(3)
+  const increment = () => setradio(prev => prev + 1);
+  const decrement = () => setradio(prev => prev - 1);
+  const reset = () => setradio(0);
+  const [punto, setpunto] = useState({lon:0,alt:0})
+
 
   return (
     <div className="relative">
@@ -86,6 +93,30 @@ export default function Home() {
           </div>
 
           <div className="w-full max-w-4xl mx-auto">
+            <div className="bg-black text-white text-center p-2 rounded-md shadow-sm w-fit mx-auto">
+              <h2 className="text-sm font-medium mb-2">Radio: {radio}</h2>
+              <div className="space-x-1">
+                <button
+                  onClick={decrement}
+                  className="bg-gray-700 hover:bg-gray-600 text-xs px-2 py-1 rounded"
+                >
+                  -
+                </button>
+                <button
+                  onClick={reset}
+                  className="bg-gray-500 hover:bg-gray-400 text-xs px-2 py-1 rounded"
+                >
+                  Reset
+                </button>
+                <button
+                  onClick={increment}
+                  className="bg-gray-700 hover:bg-gray-600 text-xs px-2 py-1 rounded"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
             <HeaderBusquedaRecode
               autosTotales={autos}
               autosFiltrados={autosFiltrados}
@@ -108,7 +139,7 @@ export default function Home() {
         <div className="hidden lg:block lg:w-[40%]">
           <div className="sticky top-[64px] h-[calc(100vh-64px)] bg-gray-100 rounded shadow-inner">
             {!loadingMap &&
-              <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} />
+              <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} radio={radio} punto={punto} setpunto={setpunto} />
             }
           </div>
         </div>
@@ -140,7 +171,7 @@ export default function Home() {
 
             <div className="w-full h-[calc(100%-40px)]">
               {!loadingMap &&
-                <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} />
+                <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} radio={radio} punto={punto} setpunto={setpunto} />
               }
             </div>
           </div>

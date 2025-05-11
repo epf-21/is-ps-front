@@ -153,7 +153,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [] }: MapProps) => {
                       </div>
                     </div>
                     <Button
-                      className="mt-2 w-full"
+                      className="mt-2 w-full cursor-pointer"
                       onClick={() => router.push(`/infoAuto_Recode/${currentAuto.id}`)}
                     >
                       Ver oferta

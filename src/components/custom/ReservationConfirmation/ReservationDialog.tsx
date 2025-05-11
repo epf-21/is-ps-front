@@ -164,7 +164,7 @@ export default function ReservationDialog({
                 <br />
                 <strong>Marca:</strong> {marca}
                 <br />
-                <strong>Precio:</strong> {precio}
+                <strong>Precio día:</strong> {precio} BOB
               </div>
             </div>
           </AlertDialogHeader>
@@ -178,7 +178,7 @@ export default function ReservationDialog({
                 : "--:--:--"}
             </p>
             <p className="text-sm text-gray-600 mt-1">
-              Reserva válida por 48 horas
+              Reserva válida por 12 horas
             </p>
           </div>
 

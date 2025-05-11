@@ -38,7 +38,7 @@ export default function ReservationConfirmedMessage({
     startTimer,
     cancelReservation,
     setAutoCancelled,
-  } = useReservationTimer(48 * 60 * 60 * 1000);
+  } = useReservationTimer(12 * 60 * 60 * 1000);
 
   const vehicle = {
     id: 1,

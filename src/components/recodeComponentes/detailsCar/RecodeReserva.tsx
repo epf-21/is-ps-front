@@ -58,7 +58,6 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
       </button>
 
 
-
       {showModal && (
         <div className="fixed inset-0 bg-[rgba(0,0,0,0.3)] flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 w-[90%] max-w-md">

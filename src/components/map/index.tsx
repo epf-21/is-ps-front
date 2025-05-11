@@ -1,6 +1,7 @@
 "use client"
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import L, { DivIcon, LatLngExpression, LatLngTuple } from "leaflet"
@@ -109,36 +110,50 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
             <Marker key={group.key} position={[latitud, longitud]} icon={customIcon}>
               <Popup>
                 <Card className="w-[250px] p-0 shadow-lg rounded-xl overflow-hidden">
-                  <div className="p-3 space-y-1">
+                  <div className="relative w-full h-[120px]">
+                    <div className="w-full h-full overflow-hidden bg-white flex items-center justify-center">
+                      {currentAuto.image ? (
+                        <Image
+                          src={currentAuto.image}
+                          width={250}
+                          height={120}
+                          alt="imagen del auto"
+                          className="object-cover"
+                          layout="lazy"
+                          unoptimized
+                        />
+                      ) : (
+                        <span className="text-sm bg-gray-100 text-black">Sin imagen</span>
+                      )}
+                    </div>
                     {hasMultiple && (
-                      <div className="flex justify-between mt-2">
+                      <>
                         <Button
-                          variant="outline"
+                          variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white/40 hover:bg-white rounded-full p-1"
                           onClick={(e) => {
                             e.stopPropagation();
                             prevAuto(group.key);
                           }}
                         >
-                          <ChevronLeft className="h-4 w-4" />
+                          <ChevronLeft className="h-4 w-4 text-black" />
                         </Button>
-                        <div className="flex justify-between items-center mb-2 text-sm text-gray-600">
-                          <span>Vehículo {currentIndex + 1} de {group.autos.length}</span>
-                        </div>
                         <Button
-                          variant="outline"
+                          variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="absolute top-1/2 right-2 transform -translate-y-1/2 bg-white/40 hover:bg-white rounded-full p-1"
                           onClick={(e) => {
                             e.stopPropagation();
                             nextAuto(group.key);
                           }}
                         >
-                          <ChevronRight className="h-4 w-4" />
+                          <ChevronRight className="h-4 w-4 text-black" />
                         </Button>
-                      </div>
+                      </>
                     )}
+                  </div>
+                  <div className="p-2 space-y-1">
                     <div className="font-semibold text-base">
                       {currentAuto.marca} {currentAuto.modelo} {currentAuto.anio}
                     </div>

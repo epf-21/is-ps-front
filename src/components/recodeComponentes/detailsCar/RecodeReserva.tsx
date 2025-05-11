@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 
 export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
   const [showModal, setShowModal] = useState(false);
-  const [showReservationDialog, setShowReservationDialog] = useState(false);//mostrarReserva
 
   // Suponiendo obtener la fecha actual o que el usuario la seleccionam
   //const [fechaSeleccionada, setFechaSeleccionada] = useState<string>('');
@@ -35,8 +34,6 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
   console.log(":::: Usuario que se pasa a ConfirmacionReservaOpciones:", user); //
 
   const [showConfirmationOptions, setShowConfirmationOptions] = useState(false);
-  const [mostrarReserva, setMostrarReserva] = useState(false);
-
 
   const router = useRouter();
   console.log("Usuario en Reserva:", user); ///////
@@ -59,7 +56,7 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
       >
         Reserva
       </button>
-      
+
 
 
       {showModal && (
@@ -136,9 +133,6 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
           onCancelar={() => setShowConfirmationOptions(false)}
         />
       )}
-
-     
-
     </div>
   );
 }

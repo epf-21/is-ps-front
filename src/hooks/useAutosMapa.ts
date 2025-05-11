@@ -4,7 +4,7 @@ import { AutoMap } from "@/interface/map";
 
 export function useCarsMap(startDate: string, endDate: string) {
   return useQuery<AutoMap[]>({
-    queryKey: ['cars-map'],
+    queryKey: ['cars-map', startDate, endDate],
     queryFn: async () => {
       const { data } = await axiosInstance.get('/api/cars/available', {
         params: {
@@ -12,7 +12,6 @@ export function useCarsMap(startDate: string, endDate: string) {
           endDate,
         },
       });
-      console.log('data', data);
       return data
     },
     staleTime: 7000,

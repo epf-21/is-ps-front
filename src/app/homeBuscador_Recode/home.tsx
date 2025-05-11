@@ -44,11 +44,6 @@ export default function Home() {
     }
   ), []);
 
-  const handleFiltrar = (query: string) => {
-    setBusqueda(query);
-    filtrarAutos(query);
-  };
-
   const { data: carsMap, isLoading: loadingMap } = useCarsMap(startDate, endDate);
 
   return (
@@ -80,7 +75,7 @@ export default function Home() {
               fechaFin={fechaFin}
               setFechaInicio={(fecha) => {
                 setFechaInicio(fecha);
-                filtrarAutos(busqueda, fecha, fechaFin); 
+                filtrarAutos(busqueda, fecha, fechaFin);
               }}
               setFechaFin={(fecha) => {
                 setFechaFin(fecha);
@@ -129,19 +124,21 @@ export default function Home() {
       </div>
 
       {showMap && (
-        <div className="fixed inset-0 bg-white bg-opacity-70 z-50 flex items-center justify-center lg:hidden">
+        <div className="fixed inset-0 bg-white bg-opacity-70 z-[9999] flex items-center justify-center lg:hidden">
           <div className="relative w-full h-full bg-white rounded-t-xl overflow-hidden">
 
-            <div className="w-full flex justify-center pt-8 pb-2">
-              <button
-                className="absolute top-0.5 right-4 p-2 bg-white rounded-full shadow-md z-50"
-                onClick={() => setShowMap(false)}
-              >
-                <X size={20} className="text-black" />
-              </button>
+            <div className="sticky top-0 left-0 w-full bg-white ">
+              <div className="flex justify-end items-center h-10">
+                <button
+                  className="p-2 bg-white rounded-full shadow-md mx-4"
+                  onClick={() => setShowMap(false)}
+                >
+                  <X size={20} className="text-black" />
+                </button>
+              </div>
             </div>
 
-            <div className="w-full h-full">
+            <div className="w-full h-[calc(100%-40px)]">
               {!loadingMap &&
                 <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} />
               }

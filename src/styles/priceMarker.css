@@ -16,6 +16,27 @@
   border-color: #000;
 }
 
+.price-marker.multiple {
+  background-color: #000;
+}
+
+.price-marker .count-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #000;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  font-weight: bold;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
 .price-marker::after {
   content: "";
   position: absolute;
@@ -27,6 +48,10 @@
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-top: 6px solid #000;
+}
+
+.price-marker.multiple::after {
+  border-top-color: #000;
 }
 
 .leaflet-popup-content-wrapper {

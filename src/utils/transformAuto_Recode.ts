@@ -23,5 +23,5 @@ export const transformAuto = (item: RawAuto): AutoCard => ({
     precioPorDia: Number(item.precio_por_dia),
     disponible_desde: item.disponible_desde || "Sin fecha de inicio",
     disponible_hasta: item.disponible_hasta || "Sin fecha de fin",
-    imagenURL: item.imagen?.[0]?.data || "",
+    imagenURL: item.imagenes?.[0]?.data || "",
 });

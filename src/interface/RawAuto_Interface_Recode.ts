@@ -23,7 +23,7 @@ export interface RawAuto_Interface_Recode {
       };
     };
   };
-  imagen?: {
+  imagenes?: {
     data?: string;
   }[];
   disponible_desde?: string;

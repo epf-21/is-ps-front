@@ -25,6 +25,26 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn-datak.motork.net',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.mitsubishimotors.pr',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.seat.es',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'us.as.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.motor1.com',
+        pathname: '/**',
       }
     ]
   },

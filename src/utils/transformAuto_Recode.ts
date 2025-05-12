@@ -7,7 +7,7 @@ export const transformAuto = (item: RawAuto): AutoCard => ({
     marca: item.marca,
     asientos: item.asientos,
     puertas: item.puertas,
-    transmision: item.transmision,
+    transmision: item.transmicion,
     combustibles: Array.isArray(item.combustiblesporCarro)
         ? item.combustiblesporCarro
             .map((c) => c?.combustible?.tipoDeCombustible)

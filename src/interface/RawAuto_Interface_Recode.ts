@@ -4,7 +4,7 @@ export interface RawAuto_Interface_Recode {
   marca: string;
   asientos: number;
   puertas: number;
-  transmision: string;
+  transmicion: string;
   precio_por_dia: number;
   combustiblesporCarro: {
     combustible?: {

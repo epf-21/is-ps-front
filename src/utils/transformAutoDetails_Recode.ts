@@ -13,7 +13,7 @@ export const transformAutoDetails_Recode = (
     soat: item.soat,
     precio: Number(item.precio_por_dia),
     descripcion: item.descripcion,
-    transmision: item.transmision,
+    transmision: item.transmicion,
     calle: item.direccion?.calle || "",
     zona: item.direccion?.zona || "",
     ciudad: item.direccion?.provincia?.ciudad?.nombre || "",

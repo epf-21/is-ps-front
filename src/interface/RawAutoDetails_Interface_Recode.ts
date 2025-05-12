@@ -8,7 +8,7 @@ export interface RawAutoDetails_Interface_Recode {
     soat: boolean;
     precio_por_dia: string;
     descripcion: string;
-    transmision: string;
+    transmicion: string;
     direccion: {
         calle: string;
         zona: string;

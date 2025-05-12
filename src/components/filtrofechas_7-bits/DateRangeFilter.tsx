@@ -19,12 +19,16 @@ const DateRangeFilter: React.FC<Props> = ({
 }) => {
     const [mostrarFiltro, setMostrarFiltro] = useState(false);
     const estaVacio = searchTerm.length === 0;
+    const todayLocal = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+    .toISOString()
+    .split("T")[0];
+
 
     return (
         <div className="relative">
             <button
                 onClick={() => setMostrarFiltro(!mostrarFiltro)}
-                className="border rounded px-4 py-2 bg-gray-200 hover:bg-gray-300"
+                className="bg-gray-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700"
             >
                 Filtrar por fechas
             </button>
@@ -38,7 +42,7 @@ const DateRangeFilter: React.FC<Props> = ({
                             <label className="text-xs font-bold">Fecha Inicio</label>
                             <input
                             type="date"
-                                min={new Date().toISOString().split("T")[0]}
+                                min={todayLocal}
                                 disabled={estaVacio}
                                 value={fechaInicio}
                                 onChange={(e) => setFechaInicio(e.target.value)}
@@ -52,7 +56,7 @@ const DateRangeFilter: React.FC<Props> = ({
                             <label className="text-xs font-bold">Fecha Fin</label>
                             <input
                             type="date"
-                            min={fechaInicio || new Date().toISOString().split("T")[0]}
+                            min={fechaInicio || todayLocal}
                             disabled={estaVacio}
                             value={fechaFin}
                             onChange={(e) => setFechaFin(e.target.value)}

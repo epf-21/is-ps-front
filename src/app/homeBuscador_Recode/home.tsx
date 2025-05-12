@@ -27,8 +27,8 @@ export default function Home() {
     obtenerSugerencia,
   } = useAutos(8);
 
-  const startDate = '2025-07-17';
-  const endDate = '2025-07-27';
+  const startDate = '2025-07-14';
+  const endDate = '2025-07-28';
   const [busqueda, setBusqueda] = useState("");
 
   const [fechaInicio, setFechaInicio] = useState("");

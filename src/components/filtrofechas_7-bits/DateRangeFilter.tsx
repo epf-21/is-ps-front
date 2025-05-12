@@ -28,7 +28,7 @@ const DateRangeFilter: React.FC<Props> = ({
         <div className="relative">
             <button
                 onClick={() => setMostrarFiltro(!mostrarFiltro)}
-                className="bg-gray-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700"
+                className="bg-black text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700"
             >
                 Filtrar por fechas
             </button>
@@ -45,7 +45,14 @@ const DateRangeFilter: React.FC<Props> = ({
                                 min={todayLocal}
                                 disabled={estaVacio}
                                 value={fechaInicio}
-                                onChange={(e) => setFechaInicio(e.target.value)}
+                                onChange={(e) => {
+                                    const nuevaFechaInicio = e.target.value;
+                                    setFechaInicio(nuevaFechaInicio);
+
+                                    if (fechaFin && new Date(nuevaFechaInicio) > new Date (fechaFin)) {
+                                        setFechaFin("");
+                                    }
+                                }}
                                 className="border px-2 py-1 rounded w-[140px] text-sm"
                                 title={estaVacio ? "Primero ingrese un término de búsqueda" : ""}
                             />

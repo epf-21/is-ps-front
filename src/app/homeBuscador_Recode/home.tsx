@@ -11,7 +11,6 @@ import { useCarsMap } from "@/hooks/useAutosMapa";
 
 import DateRangeFilter from '@/components/filtrofechas_7-bits/DateRangeFilter'
 import dynamic from "next/dynamic";
-import { set } from "date-fns";
 
 export default function Home() {
   const {
@@ -50,7 +49,7 @@ export default function Home() {
   const increment = () => setradio(prev => prev + 1);
   const decrement = () => setradio(prev => prev - 1);
   const reset = () => setradio(0);
-  const [punto, setpunto] = useState({lon:0,alt:0})
+  const [punto, setpunto] = useState({ lon: 0, alt: 0 })
 
 
   return (
@@ -74,7 +73,7 @@ export default function Home() {
             {/* <div className="mt-6">RecodeCarousel aquí (opcional)</div> */}
           </section>
           <div className="flex gap-2 justify-start mb-2 w-full">
-            
+
             {/* Filtro de Fechas */}
             <DateRangeFilter
               searchTerm={busqueda}
@@ -90,9 +89,9 @@ export default function Home() {
               }}
               onAplicarFiltro={(inicio, fin) => filtrarAutos(busqueda, inicio, fin)}
             />
-            
-            <Link href="/filtrarAeropuerto" 
-            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+
+            <Link href="/filtrarAeropuerto"
+              className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
             >Filtrar por Aeropuerto</Link>
           </div>
 

@@ -74,12 +74,8 @@ export default function Home() {
             {/* <div className="mt-6">RecodeCarousel aquí (opcional)</div> */}
           </section>
           <div className="flex gap-2 justify-start mb-2 w-full">
-            <Link href="/filtrarAeropuerto" 
-            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
-            >Filtrar por Aeropuerto</Link> 
-          </div>
-          {/* Filtro de Fechas */}
-          <div className="flex flex-col md:flex-row items-center justify-start gap-4 mb-4 w-full">
+            
+            {/* Filtro de Fechas */}
             <DateRangeFilter
               searchTerm={busqueda}
               fechaInicio={fechaInicio}
@@ -94,6 +90,10 @@ export default function Home() {
               }}
               onAplicarFiltro={(inicio, fin) => filtrarAutos(busqueda, inicio, fin)}
             />
+            
+            <Link href="/filtrarAeropuerto" 
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"
+            >Filtrar por Aeropuerto</Link>
           </div>
 
           <div className="w-full max-w-4xl mx-auto">

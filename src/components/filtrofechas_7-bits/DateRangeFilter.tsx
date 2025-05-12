@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 interface Props {
     searchTerm: string;
@@ -22,13 +22,30 @@ const DateRangeFilter: React.FC<Props> = ({
     const todayLocal = new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
     .toISOString()
     .split("T")[0];
+    const filtroRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+        if (filtroRef.current && !filtroRef.current.contains(event.target as Node)) {
+            setMostrarFiltro(false);
+        }
+    };
+
+    if (mostrarFiltro) {
+        document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+    };
+}, [mostrarFiltro]);
 
 
     return (
-        <div className="relative">
+        <div className="relative" ref={filtroRef}>
             <button
                 onClick={() => setMostrarFiltro(!mostrarFiltro)}
-                className="bg-black text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700"
+                className="bg-gray-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700"
             >
                 Filtrar por fechas
             </button>

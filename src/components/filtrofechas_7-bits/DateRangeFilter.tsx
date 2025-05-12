@@ -52,7 +52,7 @@ const DateRangeFilter: React.FC<Props> = ({
 
             {mostrarFiltro && (
                 <div className="absolute mt-2 p-4 border rounded shadow bg-white z-10">
-                    <h2 className="text-sm font-semibold mb-2">Disponibilidad para reserva:</h2>
+                    <h2 className="text-sm font-semibold mb-2">Disponibilidad del Vehículo:</h2>
                     <div className="flex gap-2">
                         {/* Fecha Inicio */}
                         <div className="flex flex-col">
@@ -60,7 +60,6 @@ const DateRangeFilter: React.FC<Props> = ({
                             <input
                             type="date"
                                 min={todayLocal}
-                                disabled={estaVacio}
                                 value={fechaInicio}
                                 onChange={(e) => {
                                     const nuevaFechaInicio = e.target.value;
@@ -81,7 +80,6 @@ const DateRangeFilter: React.FC<Props> = ({
                             <input
                             type="date"
                             min={fechaInicio || todayLocal}
-                            disabled={estaVacio}
                             value={fechaFin}
                             onChange={(e) => setFechaFin(e.target.value)}
                             className="border px-2 py-1 rounded w-[140px] text-sm"
@@ -89,11 +87,6 @@ const DateRangeFilter: React.FC<Props> = ({
                             />
                         </div>
                     </div>
-                        {estaVacio && (
-                        <div className="text-xs text-gray-500 mb-1">
-                            Busque algo para activar el filtro
-                        </div>
-                        )}
                 </div>
             )}
         </div>

@@ -52,7 +52,7 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
           }
           setShowModal(true);
         }}
-        className="mt-2 w-full py-2 bg-blue-600 text-white rounded-lg"
+        className="mt-2 w-full py-2 bg-black text-white rounded-lg"
       >
         Reserva
       </button>
@@ -102,7 +102,7 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
                   setShowModal(false);
                   setShowConfirmationOptions(true); //  Aqui activa lsegunda modal
                 }}
-                className="bg-green-600 text-white px-4 py-2 rounded"
+                className="bg-[#11295B] text-white px-4 py-2 rounded"
               >
                 Confirmar
               </button>

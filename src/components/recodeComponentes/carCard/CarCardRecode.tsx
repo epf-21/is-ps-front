@@ -29,8 +29,6 @@ function RecodeCarCard(props: Auto) {
     precioDescuento,
     precioPorDia,
     imagenURL,
-    disponible_desde,
-    disponible_hasta,
   } = props;
 
   const [combustibleSeleccionado, setCombustibleSeleccionado] = useState(combustibles[0]);
@@ -67,8 +65,6 @@ function RecodeCarCard(props: Auto) {
           precioOficial={precioOficial}
           precioDescuento={precioDescuento}
           precioPorDia={precioPorDia}
-          disponible_desde={disponible_desde}
-          disponible_hasta={disponible_hasta}
         />
       </div>
     </div>

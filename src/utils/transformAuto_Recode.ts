@@ -5,6 +5,7 @@ export const transformAuto = (item: RawAuto): AutoCard => ({
     idAuto: String(item.id),
     modelo: item.modelo,
     marca: item.marca,
+    anio: item.año,
     asientos: item.asientos,
     puertas: item.puertas,
     transmision: item.transmicion,
@@ -21,7 +22,8 @@ export const transformAuto = (item: RawAuto): AutoCard => ({
     precioOficial: Number(item.precio_por_dia),
     precioDescuento: Number(item.precio_por_dia),
     precioPorDia: Number(item.precio_por_dia),
-    disponible_desde: item.disponible_desde || "Sin fecha de inicio",
-    disponible_hasta: item.disponible_hasta || "Sin fecha de fin",
+    latitud: item.latitud,
+    longitud: item.longitud,
     imagenURL: item.imagenes?.[0]?.data || "",
+    reservas: item.reservas,
 });

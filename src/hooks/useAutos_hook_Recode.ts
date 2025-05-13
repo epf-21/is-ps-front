@@ -62,7 +62,7 @@ export function useAutos(cantidadPorLote = 8) {
       resultado.sort((a, b) => a.modelo.localeCompare(b.modelo));
     }
 
-    {/* Filtro de fechas */ }
+    {/* Filtro de fechas 
     if (fechaFiltroInicio || fechaFiltroFin) {
       resultado = resultado.filter(auto => {
         const desde = new Date(auto.disponible_desde);
@@ -85,6 +85,7 @@ export function useAutos(cantidadPorLote = 8) {
         return true;
       });
     }
+    */ }
 
     switch (ordenSeleccionado) {
       case 'Modelo Ascendente':

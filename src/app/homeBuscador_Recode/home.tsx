@@ -13,6 +13,11 @@ import DateRangeFilter from '@/components/filtrofechas_7-bits/DateRangeFilter'
 import dynamic from "next/dynamic";
 
 export default function Home() {
+  const [radio, setradio] = useState(3)
+  const increment = () => setradio(prev => prev + 1);
+  const decrement = () => setradio(prev => prev - 1);
+  const reset = () => setradio(0);
+  const [punto, setpunto] = useState({ lon: 0, alt: 0 })
   const {
     autos,
     autosFiltrados,
@@ -25,7 +30,7 @@ export default function Home() {
     cargando,
     filtrarAutos,
     obtenerSugerencia,
-  } = useAutos(8);
+  } = useAutos(8,radio,punto);
 
   const startDate = '2025-07-17';
   const endDate = '2025-07-27';
@@ -45,11 +50,6 @@ export default function Home() {
   ), []);
 
   const { data: carsMap, isLoading: loadingMap } = useCarsMap(startDate, endDate);
-  const [radio, setradio] = useState(3)
-  const increment = () => setradio(prev => prev + 1);
-  const decrement = () => setradio(prev => prev - 1);
-  const reset = () => setradio(0);
-  const [punto, setpunto] = useState({ lon: 0, alt: 0 })
 
 
   return (

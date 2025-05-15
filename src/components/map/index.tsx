@@ -16,6 +16,7 @@ import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interface_Recode';
+import { useMapStore } from "@/store/mapStore";
 
 interface MapProps {
   posix: LatLngExpression | LatLngTuple,
@@ -53,6 +54,22 @@ const FlyToOnPopupOpen = ({ position, trigger }: FlyToOnPopupOpenProps) => {
 
   return null;
 };
+
+const FlyToSelectedPoint = () => {
+  const map = useMap();
+  const selectedPoint = useMapStore((state) => state.selectedPoint);
+
+  useEffect(() => {
+    if (selectedPoint) {
+      map.flyTo([selectedPoint.lat, selectedPoint.lon], map.getZoom(), {
+        duration: 1.5,
+      });
+    }
+  }, [selectedPoint, map]);
+
+  return null;
+};
+
 
 const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
@@ -105,6 +122,9 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+
+      <FlyToSelectedPoint />
+
       {groupedAutos.map((group) => {
         const sinFiltro = punto.alt === 0 && punto.lon === 0;
         const latitud = group.autos[0].latitud;

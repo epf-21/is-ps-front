@@ -10,12 +10,10 @@ import Header from '@/components/ui/Header';
 
 import DateRangeFilter from '@/components/filtrofechas_7-bits/DateRangeFilter'
 import dynamic from "next/dynamic";
+import Radio from "@/components/map/Radio";
 
 export default function Home() {
   const [radio, setradio] = useState(3)
-  const increment = () => setradio(prev => prev + 1);
-  const decrement = () => setradio(prev => prev - 1);
-  const reset = () => setradio(0);
   const [punto, setpunto] = useState({ lon: 0, alt: 0 })
   const {
     autos,
@@ -90,29 +88,10 @@ export default function Home() {
           </div>
 
           <div className="w-full max-w-4xl mx-auto">
-            <div className="bg-black text-white text-center p-2 rounded-md shadow-sm w-fit mx-auto">
-              <h2 className="text-sm font-medium mb-2">Radio: {radio}</h2>
-              <div className="space-x-1">
-                <button
-                  onClick={decrement}
-                  className="bg-gray-700 hover:bg-gray-600 text-xs px-2 py-1 rounded"
-                >
-                  -
-                </button>
-                <button
-                  onClick={reset}
-                  className="bg-gray-500 hover:bg-gray-400 text-xs px-2 py-1 rounded"
-                >
-                  Reset
-                </button>
-                <button
-                  onClick={increment}
-                  className="bg-gray-700 hover:bg-gray-600 text-xs px-2 py-1 rounded"
-                >
-                  +
-                </button>
-              </div>
-            </div>
+            <Radio
+              radio={radio}
+              setRadio={setradio}
+            />
 
             <HeaderBusquedaRecode
               autosTotales={autos}

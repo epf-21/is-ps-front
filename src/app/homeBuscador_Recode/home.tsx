@@ -62,8 +62,7 @@ export default function Home() {
             />
           </section>
 
-          <div className="flex gap-2 justify-start mb-2 w-full">
-
+          <div className="grid grid-cols-1 justify-items-center md:items-start md:grid-cols-[1fr_1fr_1fr] gap-2 mb-4 w-full">
             <DateRangeFilter
               searchTerm={busqueda}
               fechaInicio={fechaInicio}
@@ -84,14 +83,13 @@ export default function Home() {
             >
               Filtrar por Aeropuerto
             </Link>
-          </div>
-
-          <div className="w-full max-w-4xl mx-auto">
             <Radio
               radio={radio}
               setRadio={setradio}
             />
+          </div>
 
+          <div className="w-full max-w-4xl mx-auto">
             <HeaderBusquedaRecode
               autosTotales={autos}
               autosFiltrados={autosFiltrados}

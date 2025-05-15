@@ -1,9 +1,9 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import { useMap, MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
 import L, { DivIcon, LatLngExpression, LatLngTuple } from "leaflet"
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
@@ -35,8 +35,28 @@ const defaults = {
   zoom: 12,
 }
 
+interface FlyToOnPopupOpenProps {
+  position: LatLngExpression;
+  trigger: boolean;
+}
+
+const FlyToOnPopupOpen = ({ position, trigger }: FlyToOnPopupOpenProps) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (trigger) {
+      map.flyTo(position, map.getZoom(), {
+        duration: 0.7,
+      });
+    }
+  }, [trigger, position, map]);
+
+  return null;
+};
+
 const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
+  const [popupOpenKey, setPopupOpenKey] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -107,8 +127,21 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
           const currentAuto = group.autos[currentIndex];
 
           return (
-            <Marker key={group.key} position={[latitud, longitud]} icon={customIcon}>
-              <Popup>
+            <Marker
+              key={group.key}
+              position={[latitud, longitud]}
+              icon={customIcon}
+            >
+              <Popup
+                eventHandlers={{
+                  add: () => setPopupOpenKey(group.key),
+                }}
+              >
+                <FlyToOnPopupOpen
+                  position={[latitud, longitud]}
+                  trigger={popupOpenKey === group.key}
+                />
+
                 <Card className="w-[250px] p-0 shadow-lg rounded-xl overflow-hidden">
                   <div className="relative w-full h-[120px]">
                     <div className="w-full h-full overflow-hidden bg-white flex items-center justify-center">

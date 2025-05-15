@@ -7,16 +7,6 @@ export function estaDentroDelRadio(latUsuario: number, lonUsuario: number, latAu
     return haversine(b, a) <= radioKm;
 }
 
-
-export function autosCercanosOrdenados(autos: Auto[],punto:{lon:number,alt:number}, radio: number):Auto[] {
-  return autos
-    .map(auto => {
-      const distancia = haversine(
-        { lat: auto.latitud, lon: auto.longitud },
-        { lat: punto.alt, lng: punto.lon }
-      );
-      return { ...auto, distancia };
-    })
-    .filter(auto => auto.distancia <= radio)
-    .sort((a, b) => a.distancia - b.distancia);
+export function autosCercanosOrdenados(autos: Auto[], punto: {lon: number, alt: number}, radio: number): Auto[] {
+  return autos.filter(auto=>estaDentroDelRadio(punto.alt,punto.lon,auto.latitud,auto.longitud,radio));
 }

@@ -3,6 +3,7 @@ import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interfa
 import { RawAuto_Interface_Recode as RawAuto } from '@/interface/RawAuto_Interface_Recode';
 import { getAllCars } from '@/service/services_Recode';
 import { transformAuto } from '@/utils/transformAuto_Recode';
+import { autosCercanosOrdenados } from '@/components/map/filtroGPS';
 
 export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: number, alt: number }) {
   const [autos, setAutos] = useState<Auto[]>([]);
@@ -87,6 +88,10 @@ export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: numbe
     }
     */ }
 
+    if (punto.alt !== 0 && punto.lon !== 0) {
+      resultado = autosCercanosOrdenados(resultado, punto, radio * 1000)
+    }
+
     switch (ordenSeleccionado) {
       case 'Modelo Ascendente':
         resultado.sort((a, b) => a.modelo.localeCompare(b.modelo));
@@ -103,7 +108,7 @@ export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: numbe
     }
 
     setAutosFiltrados(resultado);
-  }, [autos, textoBusqueda, ordenSeleccionado, fechaFiltroInicio, fechaFiltroFin]);
+  }, [autos, textoBusqueda, ordenSeleccionado, fechaFiltroInicio, fechaFiltroFin,punto,radio]);
 
   useEffect(() => {
     filtrarYOrdenarAutos();

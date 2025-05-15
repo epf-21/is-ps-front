@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 import { useMap, MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet"
-import L, { DivIcon, LatLng, LatLngExpression, LatLngTuple } from "leaflet"
+import L, { DivIcon, LatLngExpression, LatLngTuple } from "leaflet"
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -70,10 +70,30 @@ const FlyToSelectedPoint = () => {
   return null;
 };
 
+const SaveMapPosition = () => {
+  const map = useMapEvents({
+    moveend: () => {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      localStorage.setItem("mapCenter", JSON.stringify([center.lat, center.lng]));
+      localStorage.setItem("mapZoom", JSON.stringify(zoom));
+    },
+    zoomend: () => {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      localStorage.setItem("mapCenter", JSON.stringify([center.lat, center.lng]));
+      localStorage.setItem("mapZoom", JSON.stringify(zoom));
+    },
+  });
+  return null;
+}
 
 const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
   const [popupOpenKey, setPopupOpenKey] = useState<string | null>(null);
+
+  const storedCenter = typeof window !== "undefined" ? localStorage.getItem("mapCenter") : null;
+  const storedZoom = typeof window !== "undefined" ? localStorage.getItem("mapZoom") : null;
 
   const router = useRouter();
 
@@ -112,17 +132,25 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
     });
   };
 
+  const initialCenter: LatLngExpression = storedCenter
+    ? JSON.parse(storedCenter)
+    : posix;
+
+  const initialZoom: number = storedZoom
+    ? JSON.parse(storedZoom)
+    : zoom;
+
   return (
     <MapContainer
-      center={posix}
-      zoom={zoom}
+      center={initialCenter}
+      zoom={initialZoom}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-
+      <SaveMapPosition />
       <FlyToSelectedPoint />
 
       {groupedAutos.map((group) => {
@@ -228,7 +256,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
           );
         }
         return null;
-      })}   
+      })}
       <MapPunto radio={radio} punto={punto} setpunto={setpunto} />
     </MapContainer>
   );

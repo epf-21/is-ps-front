@@ -57,16 +57,13 @@ function RecodeCarCard(props: Auto) {
           <CarCardUbicacion ciudad={ciudad} calle={calle} />
         </div>
       </div>
-
-      <div className="flex flex-col items-start">
-        {/* Precio */}
-        <CarCardPrice
-          id={idAuto}
-          precioOficial={precioOficial}
-          precioDescuento={precioDescuento}
-          precioPorDia={precioPorDia}
-        />
-      </div>
+      {/* Precio */}
+      <CarCardPrice
+        id={idAuto}
+        precioOficial={precioOficial}
+        precioDescuento={precioDescuento}
+        precioPorDia={precioPorDia}
+      />
     </div>
   );
 }

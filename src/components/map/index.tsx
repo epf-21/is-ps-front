@@ -3,8 +3,8 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { useMap, MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
-import L, { DivIcon, LatLngExpression, LatLngTuple } from "leaflet"
+import { useMap, MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet"
+import L, { DivIcon, LatLng, LatLngExpression, LatLngTuple } from "leaflet"
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
@@ -228,7 +228,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
           );
         }
         return null;
-      })}
+      })}   
       <MapPunto radio={radio} punto={punto} setpunto={setpunto} />
     </MapContainer>
   );

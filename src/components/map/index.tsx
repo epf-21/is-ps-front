@@ -10,13 +10,14 @@ import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility
 import "leaflet-defaulticon-compatibility";
 import "@/styles/priceMarker.css"
 
-import MapPunto from "../mapPunto";
+import PuntoDinamico from "./components/PuntoDinamico";
 import { estaDentroDelRadio } from "./filtroGPS";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interface_Recode';
 import { useMapStore } from "@/store/mapStore";
+import PuntoUsuario from "./components/PuntoUsurio";
 
 interface MapProps {
   posix: LatLngExpression | LatLngTuple,
@@ -256,8 +257,9 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
           );
         }
         return null;
-      })}
-      <MapPunto radio={radio} punto={punto} setpunto={setpunto} />
+      })}  
+      <PuntoDinamico radio={radio} punto={punto} setpunto={setpunto} />
+      <PuntoUsuario/>
     </MapContainer>
   );
 }

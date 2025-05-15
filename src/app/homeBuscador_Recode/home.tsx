@@ -13,7 +13,7 @@ import Radio from "@/components/map/Radio";
 import MapViwMobile from "@/components/map/MapViewMobile";
 
 export default function Home() {
-  const [radio, setradio] = useState(3)
+  const [radio, setradio] = useState(1)
   const [punto, setpunto] = useState({ lon: 0, alt: 0 })
   const {
     autos,

@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useState } from "react"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -11,16 +11,16 @@ import "leaflet-defaulticon-compatibility";
 import "@/styles/priceMarker.css"
 
 import MapPunto from "../mapPunto";
-import { AutoMap } from "@/interface/map";
 import { estaDentroDelRadio } from "./filtroGPS";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interface_Recode';
 
 interface MapProps {
   posix: LatLngExpression | LatLngTuple,
   zoom?: number,
-  autos?: AutoMap[],
+  autos?: Auto[],
   radio: number,
   punto: { lon: number, alt: number },
   setpunto: (punto: { lon: number, alt: number }) => void;
@@ -28,7 +28,7 @@ interface MapProps {
 
 interface GroupedAuto {
   key: string;
-  autos: AutoMap[];
+  autos: Auto[];
 }
 
 const defaults = {
@@ -89,10 +89,10 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
         const sinFiltro = punto.alt === 0 && punto.lon === 0;
         const latitud = group.autos[0].latitud;
         const longitud = group.autos[0].longitud;
-        const dentroDelRadio = estaDentroDelRadio(punto.alt, punto.lon, latitud, longitud, radio*1000);
+        const dentroDelRadio = estaDentroDelRadio(punto.alt, punto.lon, latitud, longitud, radio * 1000);
 
         if (sinFiltro || dentroDelRadio) {
-          const lowestPrice = Math.min(...group.autos.map(auto => auto.precio));
+          const lowestPrice = Math.min(...group.autos.map(auto => auto.precioOficial));
           const hasMultiple = group.autos.length > 1;
 
           const customIcon: DivIcon = L.divIcon({
@@ -112,9 +112,9 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
                 <Card className="w-[250px] p-0 shadow-lg rounded-xl overflow-hidden">
                   <div className="relative w-full h-[120px]">
                     <div className="w-full h-full overflow-hidden bg-white flex items-center justify-center">
-                      {currentAuto.image ? (
+                      {currentAuto.imagenURL ? (
                         <Image
-                          src={currentAuto.image}
+                          src={currentAuto.imagenURL}
                           width={250}
                           height={120}
                           alt="imagen del auto"
@@ -159,12 +159,12 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
                     </div>
                     <div className="flex justify-between items-center mt-2">
                       <div className="text-right">
-                        <div className="font-bold text-base">BOB {currentAuto.precio} / día</div>
+                        <div className="font-bold text-base">BOB {currentAuto.precioOficial} / día</div>
                       </div>
                     </div>
                     <Button
                       className="mt-2 w-full cursor-pointer"
-                      onClick={() => router.push(`/infoAuto_Recode/${currentAuto.id}`)}
+                      onClick={() => router.push(`/infoAuto_Recode/${currentAuto.idAuto}`)}
                     >
                       Ver oferta
                     </Button>

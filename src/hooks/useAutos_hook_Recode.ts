@@ -3,9 +3,8 @@ import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interfa
 import { RawAuto_Interface_Recode as RawAuto } from '@/interface/RawAuto_Interface_Recode';
 import { getAllCars } from '@/service/services_Recode';
 import { transformAuto } from '@/utils/transformAuto_Recode';
-import { autosCercanosOrdenados } from '@/components/map/filtroGPS';
 
-export function useAutos(cantidadPorLote = 8,radio:number,punto:{lon:number,alt:number}) {
+export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: number, alt: number }) {
   const [autos, setAutos] = useState<Auto[]>([]);
   const [autosFiltrados, setAutosFiltrados] = useState<Auto[]>([]);
   const [autosVisibles, setAutosVisibles] = useState(cantidadPorLote);
@@ -87,8 +86,6 @@ export function useAutos(cantidadPorLote = 8,radio:number,punto:{lon:number,alt:
       });
     }
     */ }
-
-    resultado = autosCercanosOrdenados(resultado,punto,radio)
 
     switch (ordenSeleccionado) {
       case 'Modelo Ascendente':

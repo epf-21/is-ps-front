@@ -7,7 +7,6 @@ import SearchBar from '@/components/recodeComponentes/seccionOrdenarMasResultado
 import HeaderBusquedaRecode from '@/components/recodeComponentes/seccionOrdenarMasResultados/HeaderBusquedaRecode';
 import ResultadosAutos from '@/components/recodeComponentes/seccionOrdenarMasResultados/ResultadosAutos_Recode';
 import Header from '@/components/ui/Header';
-import { useCarsMap } from "@/hooks/useAutosMapa";
 
 import DateRangeFilter from '@/components/filtrofechas_7-bits/DateRangeFilter'
 import dynamic from "next/dynamic";
@@ -30,10 +29,8 @@ export default function Home() {
     cargando,
     filtrarAutos,
     obtenerSugerencia,
-  } = useAutos(8,radio,punto);
+  } = useAutos(8, radio, punto);
 
-  const startDate = '2025-07-17';
-  const endDate = '2025-07-27';
   const [busqueda, setBusqueda] = useState("");
 
   const [fechaInicio, setFechaInicio] = useState("");
@@ -48,9 +45,6 @@ export default function Home() {
       ssr: false,
     }
   ), []);
-
-  const { data: carsMap, isLoading: loadingMap } = useCarsMap(startDate, endDate);
-
 
   return (
     <div className="relative">
@@ -141,9 +135,7 @@ export default function Home() {
 
         <div className="hidden lg:block lg:w-[40%]">
           <div className="sticky top-[64px] h-[calc(100vh-64px)] bg-gray-100 rounded shadow-inner">
-            {!loadingMap &&
-              <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} radio={radio} punto={punto} setpunto={setpunto} />
-            }
+            <ViewMap posix={[-17.39438, -66.16018]} autos={autosFiltrados} radio={radio} punto={punto} setpunto={setpunto} />
           </div>
         </div>
       </div>
@@ -173,9 +165,7 @@ export default function Home() {
             </div>
 
             <div className="w-full h-[calc(100%-40px)]">
-              {!loadingMap &&
-                <ViewMap posix={[-17.39438, -66.16018]} autos={carsMap} radio={radio} punto={punto} setpunto={setpunto} />
-              }
+              <ViewMap posix={[-17.39438, -66.16018]} autos={autosFiltrados} radio={radio} punto={punto} setpunto={setpunto} />
             </div>
           </div>
         </div>

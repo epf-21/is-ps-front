@@ -86,6 +86,7 @@ export default function Home() {
             <Radio
               radio={radio}
               setRadio={setradio}
+              punto={punto}
             />
           </div>
 

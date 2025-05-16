@@ -9,6 +9,7 @@ interface HijoProps {
 }
 const MapPunto= ({radio,punto,setpunto }:HijoProps) => {
   const [position, setPosition] = useState<LatLng | null>(null)
+  const [ubicacionEnviada, setUbicacionEnviada] = useState(false);
   function actualizarPunto(lon:number,alt:number) {
     setpunto({lon,alt})
   }
@@ -20,6 +21,16 @@ const MapPunto= ({radio,punto,setpunto }:HijoProps) => {
       map.locate()
       map.flyTo(e.latlng, map.getZoom())
     },
+    locationfound(e) {
+      if (!ubicacionEnviada) {
+        const { lat, lng } = e.latlng;
+        setPosition(e.latlng);
+        actualizarPunto(lng, lat);
+        map.flyTo(e.latlng, map.getZoom());
+        setUbicacionEnviada(true);
+      }
+    },
+
   })
 
   const fillBlueOptions = { fillColor: 'blue' }

@@ -17,7 +17,6 @@ import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interface_Recode';
 import { useMapStore } from "@/store/mapStore";
-import PuntoUsuario from "./components/PuntoUsurio";
 
 interface MapProps {
   posix: LatLngExpression | LatLngTuple,
@@ -259,7 +258,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
         return null;
       })}
       <PuntoDinamico radio={radio} punto={punto} setpunto={setpunto} />
-      <PuntoUsuario />
+      <PuntoUsuario/>
     </MapContainer>
   );
 }

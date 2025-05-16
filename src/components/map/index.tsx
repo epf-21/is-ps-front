@@ -257,9 +257,9 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
           );
         }
         return null;
-      })}  
+      })}
       <PuntoDinamico radio={radio} punto={punto} setpunto={setpunto} />
-      <PuntoUsuario/>
+      <PuntoUsuario />
     </MapContainer>
   );
 }

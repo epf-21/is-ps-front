@@ -63,30 +63,34 @@ export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: numbe
       resultado.sort((a, b) => a.modelo.localeCompare(b.modelo));
     }
 
-    {/* Filtro de fechas 
-    if (fechaFiltroInicio || fechaFiltroFin) {
-      resultado = resultado.filter(auto => {
-        const desde = new Date(auto.disponible_desde);
-        const hasta = new Date(auto.disponible_hasta);
-        console.log("Desde:", desde, "Hasta:", hasta);
-        console.log("Fecha Inicio:", fechaFiltroInicio, "Fecha Fin:", fechaFiltroFin);
+    {/* Filtro de fechas */}
+    if (fechaFiltroInicio && fechaFiltroFin) {
+      const inicioFiltro = new Date(fechaFiltroInicio);
+      const finFiltro = new Date(fechaFiltroFin);
 
-        if (fechaFiltroInicio && fechaFiltroFin) {
-          const inicio = new Date(fechaFiltroInicio);
-          const fin = new Date(fechaFiltroFin);
-          return desde <= inicio && hasta >= fin;
-        } else if (fechaFiltroInicio) {
-          const inicio = new Date(fechaFiltroInicio);
-          return desde <= inicio;
-        } else if (fechaFiltroFin) {
-          const fin = new Date(fechaFiltroFin);
-          return hasta >= fin;
+      resultado = resultado.filter (auto => {
+        {/* Si no tiene reservas, el auto se muestra */}
+        if (!auto.reservas || auto.reservas.length === 0) return true;
+
+        {/* Se revisa cada reserva */}
+        for (const reserva of auto.reservas) {
+          {/* Solo tomamos reservas "pendiente" o "confirmado" */}
+          if (reserva.estado !== "pendiente" && reserva.estado !== "confirmado") continue;
+
+          const inicioReserva = new Date(reserva.fecha_inicio);
+          const finReserva = new Date(reserva.fecha_fin);
+
+          {/* Si la reserva se cruza con el rango filtrado, el auto no debe mostrarse */}
+          const seCruza = (inicioReserva <= finFiltro && finReserva >= inicioFiltro);
+
+          if (seCruza) {
+            return false;
+          }
         }
 
         return true;
       });
     }
-    */ }
 
     if (punto.alt !== 0 && punto.lon !== 0) {
       resultado = autosCercanosOrdenados(resultado, punto, radio * 1000)
@@ -108,7 +112,7 @@ export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: numbe
     }
 
     setAutosFiltrados(resultado);
-  }, [autos, textoBusqueda, ordenSeleccionado, fechaFiltroInicio, fechaFiltroFin,punto,radio]);
+  }, [autos, textoBusqueda, ordenSeleccionado, fechaFiltroInicio, fechaFiltroFin, punto, radio]);
 
   useEffect(() => {
     filtrarYOrdenarAutos();

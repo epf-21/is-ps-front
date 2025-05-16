@@ -60,7 +60,7 @@ export default function Home() {
       <div className="flex flex-col lg:flex-row">
         <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
-          <section className="mb-8 flex flex-col items-center text-center">
+          <section className="mb-8 grid grid-cols-1 justify-items-center gap-2 items-center text-center md:grid-cols-[3fr_1fr]">
             <SearchBar
               placeholder="Buscar por modelo, marca"
               onFiltrar={(query) => {

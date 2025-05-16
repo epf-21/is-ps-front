@@ -23,20 +23,22 @@ export default function ElegirFechas({ onChange }: ElegirFechasProps) {
   const clearPickupDate = () => setPickupDate(undefined);
   const clearReturnDate = () => setReturnDate(undefined);
 
-  // ✅ Aquí está el return que faltaba
+  const [pickupOpen, setPickupOpen] = useState(false);
+  const [returnOpen, setReturnOpen] = useState(false);
+
   return (
-    <div className="flex gap-4">
+    <div className="flex flex-col sm:flex-row gap-4 w-full">
       {/* Fecha de Recogida */}
-      <Popover>
+      <Popover open={pickupOpen} onOpenChange={setPickupOpen}>  {/* para cerrar cuando se seleccione una feca */}
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-auto h-auto justify-start text-left font-normal border border-gray-500"
+            className="w-full sm:w-auto h-auto flex items-center gap-2 text-left font-normal border border-gray-500 px-4 py-2"
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            <div className="flex flex-col items-start">
+            <CalendarIcon className="h-5 w-5" />
+            <div className="flex flex-col justify-center">
               <span className="text-sm font-bold">Fecha de recogida</span>
-              <span>
+              <span className="text-sm">
                 {pickupDate
                   ? format(pickupDate, "dd '/' MMMM '/' yyyy", { locale: es })
                   : "Agrega una Fecha"}
@@ -54,7 +56,8 @@ export default function ElegirFechas({ onChange }: ElegirFechasProps) {
                 //const fechaFormateada = format(date, "dd '/' MMMM '/' yyyy", {
                 //  locale: es,
                 //});
-                onChange({ pickupDate: date, returnDate });///cambiao
+                onChange({ pickupDate: date, returnDate }); ///cambiao
+                setPickupOpen(false);//cerrar cuando se selecciono una fecha
               }
             }}
             disabled={(date) => date < new Date()}
@@ -74,16 +77,16 @@ export default function ElegirFechas({ onChange }: ElegirFechasProps) {
       </Popover>
 
       {/* Fecha de Devolución */}
-      <Popover>
+      <Popover open={returnOpen} onOpenChange={setReturnOpen}>
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-auto h-auto justify-start text-left font-normal border border-gray-500"
+            className="w-full sm:w-auto h-auto flex items-center gap-2 text-left font-normal border border-gray-500 px-4 py-2"
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
-            <div className="flex flex-col items-start">
-              <span className="text-sm font-bold">Fecha de devolución</span>
-              <span>
+            <CalendarIcon className="h-5 w-5" />
+            <div className="flex flex-col justify-center">
+              <span className="text-sm font-bold">Fecha de recogida</span>
+              <span className="text-sm">
                 {returnDate
                   ? format(returnDate, "dd '/' MMMM '/' yyyy", { locale: es })
                   : "Agrega una Fecha"}
@@ -102,6 +105,7 @@ export default function ElegirFechas({ onChange }: ElegirFechasProps) {
                 //  locale: es,
                 //});
                 onChange({ pickupDate, returnDate: date });
+                setReturnOpen(false);
               }
             }}
             disabled={(date) => {

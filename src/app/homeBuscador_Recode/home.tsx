@@ -11,6 +11,7 @@ import DateRangeFilter from '@/components/filtrofechas_7-bits/DateRangeFilter'
 import dynamic from "next/dynamic";
 import Radio from "@/components/map/Radio";
 import MapViwMobile from "@/components/map/MapViewMobile";
+import { Map } from "lucide-react";
 
 export default function Home() {
   const [radio, setradio] = useState(1)
@@ -33,6 +34,14 @@ export default function Home() {
 
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
+  const [gpsFilterActive, setGpsFilterActive] = useState(false);
+  const toggleGPSFilter = () => {
+    if(gpsFilterActive){
+      setpunto({ lon: 0, alt: 0 })
+    }
+    setGpsFilterActive(!gpsFilterActive);
+    console.log(`Filtro GPS ${!gpsFilterActive ? 'activado' : 'desactivado'}`);
+  };
 
   const ViewMap = useMemo(() => dynamic(
     () => import('@/components/map/'),
@@ -60,6 +69,13 @@ export default function Home() {
               }}
               obtenerSugerencia={obtenerSugerencia}
             />
+            <button
+              onClick={toggleGPSFilter}
+              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium shadow-md border ${gpsFilterActive ? 'bg-black text-white' : 'bg-white text-black border-black'} transition-colors duration-300`}
+            >
+              <Map size={20} />
+              <span className="font-bold">GPS: {gpsFilterActive ? 'ON' : 'OFF'}</span>
+            </button>
           </section>
 
           <div className="grid grid-cols-1 justify-items-center md:items-start md:grid-cols-[1fr_1fr_1fr] gap-2 mb-4 w-full">
@@ -120,6 +136,7 @@ export default function Home() {
               radio={radio}
               punto={punto}
               setpunto={setpunto}
+              estaActivoGPS={gpsFilterActive}
             />
           </div>
         </div>
@@ -133,6 +150,7 @@ export default function Home() {
           radio={radio}
           punto={punto}
           setpunto={setpunto}
+          estaActivoGPS={gpsFilterActive}
         />
       </MapViwMobile>
 

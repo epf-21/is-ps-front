@@ -25,6 +25,7 @@ interface MapProps {
   radio: number,
   punto: { lon: number, alt: number },
   setpunto: (punto: { lon: number, alt: number }) => void;
+  estaActivoGPS: boolean;
 }
 
 interface GroupedAuto {
@@ -89,7 +90,7 @@ const SaveMapPosition = () => {
   return null;
 }
 
-const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
+const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto,estaActivoGPS }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
   const [popupState, setPopupState] = useState<{ key: string; version: number } | null>(null);
 
@@ -262,7 +263,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
         }
         return null;
       })}
-      <PuntoDinamico radio={radio} punto={punto} setpunto={setpunto} />
+      <PuntoDinamico radio={radio} punto={punto} setpunto={setpunto} estaActivoGPS={estaActivoGPS} />
     </MapContainer>
   );
 }

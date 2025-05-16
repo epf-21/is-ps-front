@@ -174,7 +174,7 @@ export default function ReservationDialog({
               Reserva Temporal
             </AlertDialogTitle>
 
-            <div className="text-sm space-y-2 mt-2 ml-10">
+            <div className="text-sm space-y-2 mt-2 ml-0 md:ml-10">
               <div>
                 <h3 className="font-bold text-base mb-1 text-[#11295B]">
                   Datos del usuario

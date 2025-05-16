@@ -2,10 +2,13 @@ export interface RawAuto_Interface_Recode {
   id: number;
   modelo: string;
   marca: string;
+  año: number;
   asientos: number;
   puertas: number;
-  transmision: string;
+  transmicion: string;
   precio_por_dia: number;
+  latitud: number;
+  longitud: number;
   combustiblesporCarro: {
     combustible?: {
       tipoDeCombustible: string;
@@ -26,6 +29,9 @@ export interface RawAuto_Interface_Recode {
   imagenes?: {
     data?: string;
   }[];
-  disponible_desde?: string;
-  disponible_hasta?: string;
+  reservas: {
+    fecha_inicio: string;
+    fecha_fin: string;
+    estado: string;
+  }[];
 }

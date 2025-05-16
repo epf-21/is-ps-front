@@ -2,6 +2,7 @@ export interface AutoCard_Interfaces_Recode {
     idAuto: string;
     modelo: string;
     marca: string;
+    anio: number;
     asientos: number;
     puertas: number;
     transmision: string;
@@ -15,6 +16,11 @@ export interface AutoCard_Interfaces_Recode {
     precioOficial: number;
     precioDescuento: number;
     precioPorDia: number;
-    disponible_desde: string;
-    disponible_hasta: string;
+    latitud: number;
+    longitud: number;
+    reservas: {
+        fecha_inicio: string;
+        fecha_fin: string;
+        estado: string;
+    }[];
 }

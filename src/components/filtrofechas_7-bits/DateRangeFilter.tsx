@@ -7,6 +7,8 @@ interface Props {
   fechaFin: string;
   setFechaInicio: (fecha: string) => void;
   setFechaFin: (fecha: string) => void;
+  autosActuales: any[];
+  autosTotales: any[];
   onAplicarFiltro: (inicio: string, fin: string) => void;
 }
 
@@ -16,6 +18,8 @@ const DateRangeFilter: React.FC<Props> = ({
   setFechaInicio,
   setFechaFin,
   searchTerm,
+  autosActuales,
+  autosTotales,
 }) => {
   const [mostrarFiltro, setMostrarFiltro] = useState(false);
   const estaVacio = searchTerm.length === 0;
@@ -45,7 +49,7 @@ const DateRangeFilter: React.FC<Props> = ({
     <div className="relative" ref={filtroRef}>
       <button
         onClick={() => setMostrarFiltro(!mostrarFiltro)}
-        className="bg-gray-800 text-white font-semibold px-4 py-2 rounded-lg hover:bg-gray-700"
+        className="bg-white text-black font-semibold px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100"
       >
         Filtrar por Fechas
       </button>
@@ -53,7 +57,7 @@ const DateRangeFilter: React.FC<Props> = ({
       {mostrarFiltro && (
         <div className="absolute mt-2 p-4 border rounded shadow bg-white z-10">
           <h2 className="text-sm font-semibold mb-2">Disponibilidad del Vehículo:</h2>
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             {/* Fecha Inicio */}
             <div className="flex flex-col">
               <label className="text-xs font-bold">Fecha Inicio</label>
@@ -86,6 +90,10 @@ const DateRangeFilter: React.FC<Props> = ({
                 title={estaVacio ? "Primero ingrese un término de búsqueda" : ""}
               />
             </div>
+          </div>
+
+          <div className="mt-3 text-xs text-center text-gray-600 bg-gray-100 rounded p-2">
+            Mostrando {autosActuales.length} de {autosTotales.length} resultados
           </div>
         </div>
       )}

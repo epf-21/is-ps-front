@@ -3,8 +3,9 @@ import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interfa
 import { RawAuto_Interface_Recode as RawAuto } from '@/interface/RawAuto_Interface_Recode';
 import { getAllCars } from '@/service/services_Recode';
 import { transformAuto } from '@/utils/transformAuto_Recode';
+import { autosCercanosOrdenados } from '@/components/map/filtroGPS';
 
-export function useAutos(cantidadPorLote = 8) {
+export function useAutos(cantidadPorLote = 8, radio: number, punto: { lon: number, alt: number }) {
   const [autos, setAutos] = useState<Auto[]>([]);
   const [autosFiltrados, setAutosFiltrados] = useState<Auto[]>([]);
   const [autosVisibles, setAutosVisibles] = useState(cantidadPorLote);
@@ -62,28 +63,40 @@ export function useAutos(cantidadPorLote = 8) {
       resultado.sort((a, b) => a.modelo.localeCompare(b.modelo));
     }
 
-    {/* Filtro de fechas */ }
-    if (fechaFiltroInicio || fechaFiltroFin) {
-      resultado = resultado.filter(auto => {
-        const desde = new Date(auto.disponible_desde);
-        const hasta = new Date(auto.disponible_hasta);
-        console.log("Desde:", desde, "Hasta:", hasta);
-        console.log("Fecha Inicio:", fechaFiltroInicio, "Fecha Fin:", fechaFiltroFin);
+    {/* Filtro de fechas */}
+    resultado = resultado.filter (auto => {
+      { /* Si no tiene reservas siempre mostrar */}
+      if (!auto.reservas || auto.reservas.length === 0) return true;
 
-        if (fechaFiltroInicio && fechaFiltroFin) {
-          const inicio = new Date(fechaFiltroInicio);
-          const fin = new Date(fechaFiltroFin);
-          return desde <= inicio && hasta >= fin;
-        } else if (fechaFiltroInicio) {
-          const inicio = new Date(fechaFiltroInicio);
-          return desde <= inicio;
-        } else if (fechaFiltroFin) {
-          const fin = new Date(fechaFiltroFin);
-          return hasta >= fin;
+      const filtroInicio = fechaFiltroInicio ? new Date(fechaFiltroInicio) : null;
+      const filtroFin = fechaFiltroFin ? new Date(fechaFiltroFin) : null;
+
+      {/* Devuelve TRUE si ninguna reserva interfiere, FALSE si alguna choca */}
+      return !auto.reservas.some(reserva => {
+        
+        if (!['pendiente', 'confirmado'].includes(reserva.estado)) return false;
+
+        const inicioReserva = new Date(reserva.fecha_inicio);
+        const finReserva = new Date(reserva.fecha_fin);
+
+        if (filtroInicio && !filtroFin) {
+          return finReserva >= filtroInicio;
         }
 
-        return true;
+        if (!filtroInicio && filtroFin) {
+          return inicioReserva <= filtroFin;
+        }
+
+        if (filtroInicio && filtroFin) {
+          return (inicioReserva <= filtroFin && finReserva >= filtroInicio);
+        }
+
+        return false;
       });
+    });
+
+    if (punto.alt !== 0 && punto.lon !== 0) {
+      resultado = autosCercanosOrdenados(resultado, punto, radio * 1000)
     }
 
     switch (ordenSeleccionado) {
@@ -102,7 +115,7 @@ export function useAutos(cantidadPorLote = 8) {
     }
 
     setAutosFiltrados(resultado);
-  }, [autos, textoBusqueda, ordenSeleccionado, fechaFiltroInicio, fechaFiltroFin]);
+  }, [autos, textoBusqueda, ordenSeleccionado, fechaFiltroInicio, fechaFiltroFin, punto, radio]);
 
   useEffect(() => {
     filtrarYOrdenarAutos();

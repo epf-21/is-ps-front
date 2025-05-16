@@ -1,26 +1,27 @@
 "use client"
-import { useState } from "react";
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet"
+import { useMap, MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet"
 import L, { DivIcon, LatLngExpression, LatLngTuple } from "leaflet"
 import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import "@/styles/priceMarker.css"
 
-import MapPunto from "../mapPunto";
-import { AutoMap } from "@/interface/map";
+import PuntoDinamico from "./components/PuntoDinamico";
 import { estaDentroDelRadio } from "./filtroGPS";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { AutoCard_Interfaces_Recode as Auto } from '@/interface/AutoCard_Interface_Recode';
+import { useMapStore } from "@/store/mapStore";
 
 interface MapProps {
   posix: LatLngExpression | LatLngTuple,
   zoom?: number,
-  autos?: AutoMap[],
+  autos?: Auto[],
   radio: number,
   punto: { lon: number, alt: number },
   setpunto: (punto: { lon: number, alt: number }) => void;
@@ -28,15 +29,72 @@ interface MapProps {
 
 interface GroupedAuto {
   key: string;
-  autos: AutoMap[];
+  autos: Auto[];
 }
 
 const defaults = {
   zoom: 12,
 }
 
+interface FlyToOnPopupOpenProps {
+  position: LatLngExpression;
+  trigger: boolean;
+  version: number | undefined;
+}
+
+const FlyToOnPopupOpen = ({ position, trigger, version }: FlyToOnPopupOpenProps) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (trigger) {
+      map.flyTo(position, map.getZoom(), {
+        duration: 1.5,
+      });
+    }
+  }, [trigger, version, position, map]);
+
+  return null;
+};
+
+const FlyToSelectedPoint = () => {
+  const map = useMap();
+  const selectedPoint = useMapStore((state) => state.selectedPoint);
+
+  useEffect(() => {
+    if (selectedPoint) {
+      map.flyTo([selectedPoint.lat, selectedPoint.lon], map.getZoom(), {
+        duration: 1.5,
+      });
+    }
+  }, [selectedPoint, map]);
+
+  return null;
+};
+
+const SaveMapPosition = () => {
+  const map = useMapEvents({
+    moveend: () => {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      localStorage.setItem("mapCenter", JSON.stringify([center.lat, center.lng]));
+      localStorage.setItem("mapZoom", JSON.stringify(zoom));
+    },
+    zoomend: () => {
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      localStorage.setItem("mapCenter", JSON.stringify([center.lat, center.lng]));
+      localStorage.setItem("mapZoom", JSON.stringify(zoom));
+    },
+  });
+  return null;
+}
+
 const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
+  const [popupState, setPopupState] = useState<{ key: string; version: number } | null>(null);
+
+  const storedCenter = typeof window !== "undefined" ? localStorage.getItem("mapCenter") : null;
+  const storedZoom = typeof window !== "undefined" ? localStorage.getItem("mapZoom") : null;
 
   const router = useRouter();
 
@@ -75,24 +133,35 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
     });
   };
 
+  const initialCenter: LatLngExpression = storedCenter
+    ? JSON.parse(storedCenter)
+    : posix;
+
+  const initialZoom: number = storedZoom
+    ? JSON.parse(storedZoom)
+    : zoom;
+
   return (
     <MapContainer
-      center={posix}
-      zoom={zoom}
+      center={initialCenter}
+      zoom={initialZoom}
       scrollWheelZoom={true}
       style={{ height: "100%", width: "100%" }}
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <SaveMapPosition />
+      <FlyToSelectedPoint />
+
       {groupedAutos.map((group) => {
         const sinFiltro = punto.alt === 0 && punto.lon === 0;
         const latitud = group.autos[0].latitud;
         const longitud = group.autos[0].longitud;
-        const dentroDelRadio = estaDentroDelRadio(punto.alt, punto.lon, latitud, longitud, radio*1000);
+        const dentroDelRadio = estaDentroDelRadio(punto.alt, punto.lon, latitud, longitud, radio * 1000);
 
         if (sinFiltro || dentroDelRadio) {
-          const lowestPrice = Math.min(...group.autos.map(auto => auto.precio));
+          const lowestPrice = Math.min(...group.autos.map(auto => auto.precioOficial));
           const hasMultiple = group.autos.length > 1;
 
           const customIcon: DivIcon = L.divIcon({
@@ -107,14 +176,31 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
           const currentAuto = group.autos[currentIndex];
 
           return (
-            <Marker key={group.key} position={[latitud, longitud]} icon={customIcon}>
-              <Popup>
+            <Marker
+              key={group.key}
+              position={[latitud, longitud]}
+              icon={customIcon}
+            >
+              <Popup
+                eventHandlers={{
+                  add: () => setPopupState(prev => ({
+                    key: group.key,
+                    version: prev?.key === group.key ? (prev.version + 1) : 1,
+                  })),
+                }}
+              >
+                <FlyToOnPopupOpen
+                  position={[latitud, longitud]}
+                  trigger={popupState?.key === group.key}
+                  version={popupState?.version}
+                />
+
                 <Card className="w-[250px] p-0 shadow-lg rounded-xl overflow-hidden">
                   <div className="relative w-full h-[120px]">
                     <div className="w-full h-full overflow-hidden bg-white flex items-center justify-center">
-                      {currentAuto.image ? (
+                      {currentAuto.imagenURL ? (
                         <Image
-                          src={currentAuto.image}
+                          src={currentAuto.imagenURL}
                           width={250}
                           height={120}
                           alt="imagen del auto"
@@ -159,12 +245,12 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
                     </div>
                     <div className="flex justify-between items-center mt-2">
                       <div className="text-right">
-                        <div className="font-bold text-base">BOB {currentAuto.precio} / día</div>
+                        <div className="font-bold text-base">BOB {currentAuto.precioOficial} / día</div>
                       </div>
                     </div>
                     <Button
                       className="mt-2 w-full cursor-pointer"
-                      onClick={() => router.push(`/infoAuto_Recode/${currentAuto.id}`)}
+                      onClick={() => router.push(`/infoAuto_Recode/${currentAuto.idAuto}`)}
                     >
                       Ver oferta
                     </Button>
@@ -176,7 +262,7 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
         }
         return null;
       })}
-      <MapPunto radio={radio} punto={punto} setpunto={setpunto} />
+      <PuntoDinamico radio={radio} punto={punto} setpunto={setpunto} />
     </MapContainer>
   );
 }

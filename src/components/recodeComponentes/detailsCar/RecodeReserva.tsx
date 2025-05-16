@@ -90,7 +90,7 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
               <li>Juan Pérez</li>
               <li>María García</li>
             </ul>
-            <div className="mt-4 flex justify-end gap-2">
+            <div className="mt-4 flex justify-center sm:justify-end gap-2">{/*centalizar los botones en responsive*/}
               <button
                 onClick={() => setShowModal(false)}
                 className="bg-gray-300 px-4 py-2 rounded"

@@ -37,18 +37,6 @@ const MapPunto = ({ radio, punto, setpunto,estaActivoGPS }: HijoProps) => {
         })
       }
     },
-    locationfound(e) {
-      if (!ubicacionEnviada && estaActivoGPS) {
-        const { lat, lng } = e.latlng;
-        setPosition(e.latlng);
-        actualizarPunto(lng, lat);
-        map.flyTo(e.latlng, map.getZoom(), {
-          duration: 0.7
-        });
-        setUbicacionEnviada(true);
-      }
-    },
-
   })
 
   const fillBlueOptions = { fillColor: 'blue' }

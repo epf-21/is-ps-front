@@ -1,6 +1,6 @@
 // lib/auth.js
 import api from './api';
-
+import { API_URL } from '@/utils/bakend';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const loginUser = async (email: string, password: string): Promise<any> => {
@@ -13,5 +13,5 @@ export const loginUser = async (email: string, password: string): Promise<any> =
 };
 
 export const loginWithGoogle = (): void => {
-  window.location.href = 'http://localhost:4000/api/auth/google';
+  window.location.href = API_URL + '/api/auth/google';
 };

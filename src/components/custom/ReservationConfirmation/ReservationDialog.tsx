@@ -151,11 +151,11 @@ export default function ReservationDialog({
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
         <AlertDialogTrigger asChild>
           <Button
-            variant="outline"
+            //variant="outline"
             size="sm"
             onClick={handleClick}
             disabled={loading}
-            className="bg-black text-white hover:bg-gray border-none"
+            className="bg-black text-white hover:bg-[#333333] border-none"
           >
             {loading ? (
               <Loader2 className="animate-spin" />

@@ -151,11 +151,11 @@ export default function ReservationDialog({
       <AlertDialog open={showDialog} onOpenChange={setShowDialog}>
         <AlertDialogTrigger asChild>
           <Button
-            variant="outline"
+            //variant="outline"
             size="sm"
             onClick={handleClick}
             disabled={loading}
-            className="bg-[#11295B] text-white hover:bg-[#2f487a] border-none"
+            className="bg-black text-white hover:bg-[#333333] border-none"
           >
             {loading ? (
               <Loader2 className="animate-spin" />
@@ -170,13 +170,13 @@ export default function ReservationDialog({
 
         <AlertDialogContent className="max-w-md w-full">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-center bg-[#11295B] text-white p-4 rounded-t-xl">
+            <AlertDialogTitle className="text-center bg-black text-white p-4 rounded-t-xl">
               Reserva Temporal
             </AlertDialogTitle>
 
             <div className="text-sm space-y-2 mt-2 ml-0 md:ml-10">
               <div>
-                <h3 className="font-bold text-base mb-1 text-[#11295B]">
+                <h3 className="font-bold text-base mb-1 text-black">
                   Datos del usuario
                 </h3>
                 <strong>Nombre:</strong> {profile.nombre}
@@ -188,7 +188,7 @@ export default function ReservationDialog({
                 <strong>Teléfono:</strong> {profile.telefono}
               </div>
               <div className="pt-0">
-                <h3 className="font-bold text-base mb-1 text-[#11295B]">
+                <h3 className="font-bold text-base mb-1 text-black">
                   Datos del vehículo
                 </h3>
                 <strong>Vehículo:</strong> {modelo}
@@ -235,7 +235,7 @@ export default function ReservationDialog({
                       }
                     }
                   }}
-                  className="bg-[#11295B] text-[#E4D5C1] hover:bg-[#2f487a] font-medium"
+                  className="bg-black text-[#E4D5C1] hover:bg-[#333333] font-medium"//
                 >
                   Pagar
                 </Button>
@@ -252,7 +252,7 @@ export default function ReservationDialog({
                       }
                     }
                   }}
-                  className="bg-[#11295B] text-[#E4D5C1] hover:bg-[#2f487a] font-medium"
+                  className="bg-black text-[#E4D5C1] hover:bg-[#333333] font-medium"
                 >
                   Cancelar
                 </Button>
@@ -277,7 +277,7 @@ export default function ReservationDialog({
                       handleConfirm();
                     }
                   }}
-                  className="bg-[#11295B] text-[#E4D5C1] hover:bg-[#2f487a] font-medium"
+                  className="bg-black text-[#E4D5C1] hover:bg-[#333333] font-medium"
                 >
                   Aceptar
                 </AlertDialogAction>

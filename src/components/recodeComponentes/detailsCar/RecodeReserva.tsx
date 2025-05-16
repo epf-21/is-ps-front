@@ -90,7 +90,7 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
               <li>Juan Pérez</li>
               <li>María García</li>
             </ul>
-            <div className="mt-4 flex justify-center sm:justify-end gap-2">{/*centalizar los botones en responsive*/}
+            <div className="mt-4 flex flex-wrap justify-center gap-2 sm:justify-center">{/*centalizar los botones en responsive*/}
               <button
                 onClick={() => setShowModal(false)}
                 className="bg-gray-300 px-4 py-2 rounded"
@@ -102,7 +102,7 @@ export default function Reserva({ id, precio, marca, modelo }: ReservaProps) {
                   setShowModal(false);
                   setShowConfirmationOptions(true); //  Aqui activa lsegunda modal
                 }}
-                className="bg-[#11295B] text-white px-4 py-2 rounded"
+                className="bg-black text-white px-4 py-2 rounded"
               >
                 Confirmar
               </button>

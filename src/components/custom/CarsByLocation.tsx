@@ -3,26 +3,23 @@ import { GiCarDoor } from "react-icons/gi";
 import { IoPeople } from "react-icons/io5";
 import { TbManualGearboxFilled } from "react-icons/tb";
 import { useCars } from '@/api/queries/useCars'
+import haversine from 'haversine-distance'
 const CarsByLocation = ({ latitude, longitude, radius}: any) => {  
   const { data: content = []} = useCars();
-  const haversineDistance = (lat1: any, lon1: any, lat2: any, lon2: any) => {
-    const R = 6371; // Radio de la tierra en kilometros
-    const toRad = (value: number) => (value * Math.PI) / 180;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = Math.round(((R * c) + Number.EPSILON) * 100) / 100;
-    return distance;
-  };  
+  function calcularDistancia(latAeropuerto: number, lonAeropuerto: number, latAuto: number, lonAuto: number) {
+    const a = { lat: latAeropuerto, lng: lonAeropuerto }
+    const b = { lat: latAuto, lon: lonAuto }
+    const distanceM = haversine(a,b)
+    const distanceKm = Math.round(((distanceM/1000) + Number.EPSILON) * 100) / 100;
+    return distanceKm;      
+  }  
+
   let count = 0;  
   return (<div>
   <ul className="max-w-4xl divide-y divide-gray-200 dark:divide-gray-700">
     {content.map((item, i:number) => {
-      const distance =  haversineDistance(latitude, longitude, item.latitud, item.longitud);      
-      if(distance < radius){
+      const distance =  calcularDistancia(latitude, longitude, item.latitud, item.longitud);      
+      if(distance <= radius){
         count++;
         return(
       <li key={i} className="pb-3 sm:pb-4">

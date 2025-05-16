@@ -39,18 +39,19 @@ const defaults = {
 interface FlyToOnPopupOpenProps {
   position: LatLngExpression;
   trigger: boolean;
+  version: number | undefined;
 }
 
-const FlyToOnPopupOpen = ({ position, trigger }: FlyToOnPopupOpenProps) => {
+const FlyToOnPopupOpen = ({ position, trigger, version }: FlyToOnPopupOpenProps) => {
   const map = useMap();
 
   useEffect(() => {
     if (trigger) {
       map.flyTo(position, map.getZoom(), {
-        duration: 0.7,
+        duration: 1.5,
       });
     }
-  }, [trigger, position, map]);
+  }, [trigger, version, position, map]);
 
   return null;
 };
@@ -90,7 +91,7 @@ const SaveMapPosition = () => {
 
 const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }: MapProps) => {
   const [currentAutoIndex, setCurrentAutoIndex] = useState<Record<string, number>>({});
-  const [popupOpenKey, setPopupOpenKey] = useState<string | null>(null);
+  const [popupState, setPopupState] = useState<{ key: string; version: number } | null>(null);
 
   const storedCenter = typeof window !== "undefined" ? localStorage.getItem("mapCenter") : null;
   const storedZoom = typeof window !== "undefined" ? localStorage.getItem("mapZoom") : null;
@@ -182,12 +183,16 @@ const Map = ({ zoom = defaults.zoom, posix, autos = [], radio, punto, setpunto }
             >
               <Popup
                 eventHandlers={{
-                  add: () => setPopupOpenKey(group.key),
+                  add: () => setPopupState(prev => ({
+                    key: group.key,
+                    version: prev?.key === group.key ? (prev.version + 1) : 1,
+                  })),
                 }}
               >
                 <FlyToOnPopupOpen
                   position={[latitud, longitud]}
-                  trigger={popupOpenKey === group.key}
+                  trigger={popupState?.key === group.key}
+                  version={popupState?.version}
                 />
 
                 <Card className="w-[250px] p-0 shadow-lg rounded-xl overflow-hidden">

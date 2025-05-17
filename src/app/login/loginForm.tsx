@@ -6,37 +6,37 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
-/// CAMBIO AÑADI ESTO 
 import { loginUser } from '@/lib/auth';
 import { useAuth } from '@/context/authContext';
 
-
-
-//CAMBIO DE TODA LA FUNCION 
 export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // estado de carga en el boton iniciar sesion
   const { login } = useAuth();
   const router = useRouter();
 
-  // Corregir el tipo del parámetro e
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // Evitar para que se recargue la página
+    e.preventDefault();
+    if (isLoading) return; // evita múltiples clics
+
+    setIsLoading(true); // activar estado de carga
+
     try {
       const data = await loginUser(email, password);
       login(data);
-      //router.push('/profile');////redirecciona a profile
+
       const redirectUrl = localStorage.getItem("redirectAfterLogin");
-      console.log("➡️ Redirigiendo a:", redirectUrl);
       localStorage.removeItem("redirectAfterLogin");
-      //localStorage.setItem("redirectAfterLogin", window.location.href);
+
       if (redirectUrl) {
         router.push(redirectUrl);
       } else {
-        router.push("/"); // o cualquier ruta por defecto que prefieras
+        router.push("/");
       }
     } catch {
       alert('Credenciales inválidas');
+      setIsLoading(false); //desactiva el estado de carga hasta que hay un error o cargue a otra pestaña
     }
   };
 
@@ -77,8 +77,8 @@ export function LoginForm() {
           />
         </div>
 
-        <Button type="submit" className="w-full h-10" /*disabled={isLoading}*/>
-          {/*isLoading ? "Iniciando sesión..." : */"Iniciar sesión"}
+        <Button type="submit" className="w-full h-10" disabled={isLoading}>
+          {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
         </Button>
       </form>
 

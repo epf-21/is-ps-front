@@ -1,12 +1,11 @@
 "use client"
 import React, { ChangeEvent } from 'react';
-import { useState } from 'react';
+import { useState} from 'react';
 import { useAirports } from '@/api/queries/useAirports'
 import { Button } from "@/components/ui/button"
 import CarsByLocation from '@/components/custom/CarsByLocation';
 import Header from "@/components/ui/Header";
-
-export default function Page() {    
+export default function Page() {        
   const cities = [
     ["Cochabamba"],
     ["Beni"],
@@ -25,22 +24,22 @@ export default function Page() {
   const [selectedCity, setSelectedCity] = useState(cities[0].toString());
   const [selectedLatitude, setSelectedLatitude] = useState(0);
   const [selectedLongitude, setSelectedLongitude] = useState(0);  
-  const [selectedRadius, setSelectedRadius] = useState(5);  
-  
+  const [selectedRadius, setSelectedRadius] = useState(5);    
+
   const handleCityChange = (e: ChangeEvent<HTMLSelectElement>) => {    
     setSelectedCity(e.target.value)
     setSelectedValue('');
     setSelectedLatitude(0);
-    setSelectedLongitude(0);    
+    setSelectedLongitude(0);
   }  
 
   const handleClick = () => { 
-    if(selectedValue != ''){
+    if(selectedValue != ''){      
       const index = parseInt(selectedValue);
       const latitude = content[index].latitud    
       setSelectedLatitude(latitude);
       const longitude = content[index].longitud
-      setSelectedLongitude(longitude);      
+      setSelectedLongitude(longitude);        
     }
   }
 
@@ -62,15 +61,14 @@ export default function Page() {
   return (    
     <div>
      <Header />
-    <div className="max-w-4xl flex flex-col justify-items-center mx-auto p-5">      
+    <div className="flex flex-col justify-items-center mx-auto p-5">      
     <h1 className="text-center text-2xl mb-4 font-semibold">Filtrar Por Aeropuerto</h1>
       <p className="mb-4 font-semibold text-gray-500 text-sm">Seleccione una ciudad un Aeropuerto y haga click en Buscar</p>     
       <div className="flex flex-col md:flex-row gap-2 mb-4">
         <div className='w-full md:w-xs'>
           <label>Ciudad</label>
           <select id="ciudades" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2"
-          value={selectedCity} onChange={(e) => handleCityChange(e)}>
-          <option key='' value=''>Seleccione Ciudad</option>
+          value={selectedCity} onChange={(e) => handleCityChange(e)}>          
           {cities.map((city,i) => (
               <option key={i} value={city}>{city}</option>
             ))}
@@ -110,8 +108,8 @@ export default function Page() {
       <CarsByLocation 
       latitude={selectedLatitude} 
       longitude={selectedLongitude} 
-      radius={selectedRadius}></CarsByLocation>
-    </div>    
+      radius={selectedRadius} />      
+    </div>        
     </div>
   );
 }

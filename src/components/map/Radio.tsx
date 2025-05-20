@@ -13,12 +13,12 @@ export default function Radio({ radio, setRadio, punto }: RadioControlProps) {
 
   return (
     <div
-      className={`bg-gray-20 p-4 rounded-md border-2 shadow-sm w-56 mx-auto transition-opacity duration-300 ${
+      className={`border-gray-300 p-4 rounded-md border-2 w-56 mx-auto transition-opacity duration-300 text-center bg-white hover:bg-gray-100 focus:outline-none focus:ring-4 focus:ring-gray-300 ${
         isDisabled ? "opacity-30" : "opacity-100"
       }`}
     >
       <div className="mb-3">
-        <span className="text-gray-700 font-medium">
+        <span className="text-black font-semibold">
           Radio: {radio} kilometro
         </span>
       </div>
